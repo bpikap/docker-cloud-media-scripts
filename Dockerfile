@@ -3,7 +3,7 @@
 ####################
 FROM ubuntu:16.04
 
-MAINTAINER madslundt@live.dk <madslundt@live.dk>
+MAINTAINER prc2k10@googlemail.com <prc2k10@googlemail.com>
 
 
 ####################
@@ -47,13 +47,13 @@ ENV BUFFER_SIZE "512M"
 ENV CHECKERS "16"
 ENV RCLONE_CLOUD_ENDPOINT "gd-crypt:"
 ENV RCLONE_LOCAL_ENDPOINT "local-crypt:"
+ENC RCLONE_CACHE_ENDPOINT "gd-cache:"
 
-# Plexdrive
-ENV CHUNK_SIZE "10M"
-ENV CHUNK_CHECK_THREADS "2"
-ENV CHUNK_LOAD_THREADS "2"
-ENV CHUNK_LOAD_AHEAD "3"
-ENV MAX_CHUNKS "10"
+# Rclone Cache Settings
+ENV CACHE_CHUNK_SIZE "5M"
+ENV CACHE_TOTAL_CHUNK_SIZE "10G"
+ENV CACHE_INFO_AGE "6h"
+ENV CACHE_WORKERS "4"
 
 # Time format
 ENV DATE_FORMAT "+%F@%T"

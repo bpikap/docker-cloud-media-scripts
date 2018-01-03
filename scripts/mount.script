@@ -22,14 +22,14 @@ mount_gdrive () {
 	fi
 
 	# Make sure Plexdrive temp folder exists.
-	if [ ! -d "${plexdrive_temp_dir}" ]; then
-		mkdir -p "${plexdrive_temp_dir}"
+	if [ ! -d "${rclone_cache_chunk_path}" ]; then
+		mkdir -p "${rclone_cache_chunk_path}"
 	fi
 
 	# Mount GD if not already mounted.
-	if [ $(ps -ef | grep "plexdrive" | grep -v "grep" | wc -l) == "0" ]; then
+	if [ $(ps -ef | grep "rclone mount" | grep "${cloud_dir}" | grep -v "grep" | wc -l) == "0" ]; then
 		echo "[ $(date $(printenv DATE_FORMAT)) ] Mounting Google Drive mountpoint: ${cloud_dir}"
-		plexdrive $plexdrive_options "${cloud_dir}" &
+		rclone mount $rclone_mount_options ${cloud_dir} &
 	else
 		echo "[ $(date $(printenv DATE_FORMAT)) ] Google Drive mountpoint: ${cloud_dir} already mounted."
 	fi
@@ -50,9 +50,9 @@ mount_local_media () {
 		sleep 30
 	done
 
-	if [ $(ps -ef | grep "rclone" | grep -v "grep" | wc -l) == "0" ]; then
+	if [ $(ps -ef | grep "rclone mount" | grep "${cloud_decrypt_dir}" | grep -v "grep" | wc -l) == "0" ]; then
 		echo "[ $(date $(printenv DATE_FORMAT)) ] Mounting decrypted Google Drive: ${cloud_decrypt_dir}"
-		rclone mount $rclone_mount_options "$@" "$(printenv RCLONE_LOCAL_ENDPOINT)" "${cloud_decrypt_dir}" &
+		rclone mount $rclone_mount_options "$@" "$(printenv RCLONE_CACHE_ENDPOINT)" "${cloud_decrypt_dir}" &
 	else
 		echo "[ $(date $(printenv DATE_FORMAT)) ] Decrypted mountpoint: ${cloud_decrypt_dir} already mounted."
 	fi
