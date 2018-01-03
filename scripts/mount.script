@@ -88,7 +88,7 @@ mount_union () {
 if pidof -o %PPID -x "$(basename "$0")"; then
 	echo "[ $(date $(printenv DATE_FORMAT)) ] Mount already in progress. Aborting."
 else
-	mount_gdrive
+	#mount_gdrive
 	if [ "$(printenv ENCRYPT_MEDIA)" != "0" ]; then
 		mount_local_media
 	fi
