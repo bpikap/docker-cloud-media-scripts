@@ -11,6 +11,8 @@
 # FUNCTIONS
 ###############################################################################
 mount_gdrive () {
+	check_rclone_cache
+
 	cloud_dir="${cloud_encrypt_dir}"
 	if [ "$(printenv ENCRYPT_MEDIA)" -eq "0" ]; then
 		cloud_dir="${cloud_decrypt_dir}"

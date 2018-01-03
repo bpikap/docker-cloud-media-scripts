@@ -13,8 +13,7 @@ if pidof -o %PPID -x "$(basename "$0")"; then
 	exit 3
 fi
 
-check_rclone_cloud
-
+check_rclone_local
 
 # Generate filelist and iterate through it...
 find "${local_decrypt_dir}" -type f -print0 | xargs -0 stat --format '%Y :%y %n' | sort -nr | cut -d: -f2- | awk '{$1=$2=$3=""; print $0}' |
@@ -44,7 +43,7 @@ find "${local_decrypt_dir}" -type f -print0 | xargs -0 stat --format '%Y :%y %n'
 		# Copy file to remote destination[s], retaining path
 		if [ ! -f "${cloud_decrypt_dir}${filename}" ]; then
                         echo "[ $(date $(printenv DATE_FORMAT)) ] Transfering file -> ${n} to Google Drive in ${destpath}."
- 			rclone copy $rclone_options "$@" "$n" "$(printenv RCLONE_CLOUD_ENDPOINT)${destpath}" >/dev/null 2>&1
+ 			rclone copy $rclone_options "$@" "$n" "$(printenv RCLONE_LOCAL_ENDPOINT)${destpath}" >/dev/null 2>&1
                 fi
 	done
 
