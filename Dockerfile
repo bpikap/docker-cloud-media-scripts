@@ -89,13 +89,12 @@ RUN groupmod -g 1000 users && \
 # Define mountable directories.
 VOLUME /config /cloud-encrypt /cloud-decrypt /local-decrypt /local-media /chunks /log
 
-RUN chmod -R 777 /data
 RUN chmod -R 777 /log
 
 ####################
 # WORKING DIRECTORY
 ####################
-WORKDIR /data
+WORKDIR /
 
 
 ####################

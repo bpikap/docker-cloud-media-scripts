@@ -47,7 +47,6 @@ Volumes:
 * `-v /local-decrypt` - Local files stored on disk - Append **:shared**
 * `-v /config` - Rclone and plexdrive configurations
 * `-v /chunks` - Plexdrive cache chunks
-* `-v /data/db` - MongoDB database
 * `-v /log` - Log files from mount, cloudupload and rmlocal
 * `-v /cloud-encrypt` - Cloud files encrypted synced with Plexdrive. This is empty if `ENCRYPT_MEDIA` is 0. - Append **:shared**
 * `-v /cloud-decrypt` - Cloud files decrypted with Rclone - Append **:shared**
