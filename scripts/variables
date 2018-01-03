@@ -22,8 +22,6 @@ if [ "$(printenv READ_ONLY)" != "0" ]; then
     plexdrive_options="${plexdrive_options} -o read_only"
 fi
 
-mongo=""
-
 ufs_options="-o uid=${_puid:-911} -o gid=${_pgid:-911} -o cow,allow_other,direct_io,nonempty,auto_cache,sync_read"
 
 log_dir="/log"

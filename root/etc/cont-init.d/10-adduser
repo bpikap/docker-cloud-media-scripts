@@ -18,13 +18,11 @@ User gid:    $(id -g abc)
 chmod -R 777 \
 	/var/lock \
     $log_dir \
-    /data/db
 
 chmod a+r /etc/fuse.conf
 
 chown -R abc:abc \
     /config \
-    /data/db \
     /usr/bin/* \
     $cloud_encrypt_dir \
     $cloud_decrypt_dir \

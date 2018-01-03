@@ -87,7 +87,7 @@ RUN groupmod -g 1000 users && \
 # VOLUMES
 ####################
 # Define mountable directories.
-VOLUME /data/db /config /cloud-encrypt /cloud-decrypt /local-decrypt /local-media /chunks /log
+VOLUME /config /cloud-encrypt /cloud-decrypt /local-decrypt /local-media /chunks /log
 
 RUN chmod -R 777 /data
 RUN chmod -R 777 /log
