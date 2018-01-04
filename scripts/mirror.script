@@ -18,7 +18,7 @@ check_rclone_mirror
 
 # Syncing Google Drive with mirror endpoint
 echo "[ $(date $(printenv DATE_FORMAT)) ] Syncing Google Drive with mirror endpoint"
-rclone sync $rclone_options "$@" "$n" "$(printenv RCLONE_CLOUD_ENDPOINT) $(printenv RCLONE_MIRROR_ENDPOINT)" >/dev/null 2>&1
+rclone sync $rclone_mirror_options "$@" "$n" "$(printenv RCLONE_CLOUD_ENDPOINT)/" "$(printenv RCLONE_MIRROR_ENDPOINT)/" >/dev/null 2>&1
 
 # success!
 exit 0

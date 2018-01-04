@@ -78,6 +78,8 @@ COPY install.sh /
 
 COPY scripts/* /usr/bin/
 
+COPY exclude.txt /config
+
 RUN chmod a+x /install.sh
 RUN sh /install.sh
 RUN chmod a+x /usr/bin/*
