@@ -52,6 +52,7 @@ ENV CHECKERS "16"
 ENV RCLONE_CLOUD_ENDPOINT "gd-crypt:"
 ENV RCLONE_LOCAL_ENDPOINT "local-crypt:"
 ENV RCLONE_MIRROR_ENDPOINT "gdm-crypt:"
+ENV RCLONE_VERBOSE "0"
 
 # Plexdrive
 ENV CHUNK_SIZE "10M"
@@ -77,8 +78,6 @@ COPY setup/* /usr/bin/
 COPY install.sh /
 
 COPY scripts/* /usr/bin/
-
-COPY exclude.txt /config/
 
 RUN chmod a+x /install.sh
 RUN sh /install.sh
