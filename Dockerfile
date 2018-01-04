@@ -40,13 +40,18 @@ RUN \
 # Encryption
 ENV ENCRYPT_MEDIA "1"
 
+# Read Only
 ENV READ_ONLY "1"
+
+# Mirror
+ENV MIRROR_MEDIA "0"
 
 # Rclone
 ENV BUFFER_SIZE "512M"
 ENV CHECKERS "16"
 ENV RCLONE_CLOUD_ENDPOINT "gd-crypt:"
 ENV RCLONE_LOCAL_ENDPOINT "local-crypt:"
+ENV RCLONE_MIRROR_ENDPOINT "gdm-crypt:"
 
 # Plexdrive
 ENV CHUNK_SIZE "10M"
