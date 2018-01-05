@@ -1,0 +1,11 @@
+# a sample exclude rule file
+*.partial~
+*.random
+*.orig.
+*.nfo
+.partial~
+.random
+.orig.
+.nfo
+.unionfs-fuse/**
+.unionfs/**

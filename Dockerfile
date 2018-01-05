@@ -40,20 +40,36 @@ RUN \
 # Encryption
 ENV ENCRYPT_MEDIA "1"
 
+# Read Only
 ENV READ_ONLY "1"
+
+# Mirror
+ENV MIRROR_MEDIA "0"
+
+# Use "plexdrive" or rclone (cache) Set to "cache" if using rclone cache
+ENV CACHE_PROGRAM "plexdrive"
 
 # Rclone
 ENV BUFFER_SIZE "512M"
 ENV CHECKERS "16"
 ENV RCLONE_CLOUD_ENDPOINT "gd-crypt:"
 ENV RCLONE_LOCAL_ENDPOINT "local-crypt:"
-ENV RCLONE_CACHE_ENDPOINT "gd-cache:"
+ENV RCLONE_MIRROR_ENDPOINT "gdm-crypt:"
+ENV RCLONE_VERBOSE "0"
 
 # Rclone Cache Settings
+ENV RCLONE_CACHE_ENDPOINT "gd-cache:"
 ENV CACHE_CHUNK_SIZE "5M"
 ENV CACHE_TOTAL_CHUNK_SIZE "10G"
 ENV CACHE_INFO_AGE "6h"
 ENV CACHE_WORKERS "4"
+
+# Plexdrive
+ENV CHUNK_SIZE "10M"
+ENV CHUNK_CHECK_THREADS "2"
+ENV CHUNK_LOAD_THREADS "2"
+ENV CHUNK_LOAD_AHEAD "3"
+ENV MAX_CHUNKS "10"
 
 # Time format
 ENV DATE_FORMAT "+%F@%T"

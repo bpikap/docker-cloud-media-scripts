@@ -10,7 +10,32 @@
 ###############################################################################
 # FUNCTIONS
 ###############################################################################
-mount_gdrive () {
+mount_plexdrive () {
+	cloud_dir="${cloud_encrypt_dir}"
+	if [ "$(printenv ENCRYPT_MEDIA)" -eq "0" ]; then
+		cloud_dir="${cloud_decrypt_dir}"
+	fi
+
+	# Make sure GD mountpoint exists.
+	if [ ! -d "${cloud_dir}" ]; then
+		mkdir -p "${cloud_dir}"
+	fi
+
+	# Make sure Plexdrive temp folder exists.
+	if [ ! -d "${plexdrive_temp_dir}" ]; then
+		mkdir -p "${plexdrive_temp_dir}"
+	fi
+
+	# Mount GD if not already mounted.
+	if [ $(ps -ef | grep "plexdrive" | grep -v "grep" | wc -l) == "0" ]; then
+		echo "[ $(date $(printenv DATE_FORMAT)) ] Mounting Google Drive mountpoint: ${cloud_dir}"
+		plexdrive $plexdrive_options "${cloud_dir}" &
+	else
+		echo "[ $(date $(printenv DATE_FORMAT)) ] Google Drive mountpoint: ${cloud_dir} already mounted."
+	fi
+}
+
+mount_rclone_cache () {
         check_rclone_cache
 
         cloud_dir="${cloud_encrypt_dir}"
@@ -23,7 +48,7 @@ mount_gdrive () {
                 mkdir -p "${cloud_dir}"
         fi
 
-        # Make sure Plexdrive temp folder exists.
+        # Make sure rclone temp folder exists.
         if [ ! -d "${rclone_cache_chunk_path}" ]; then
                 mkdir -p "${rclone_cache_chunk_path}"
         fi
@@ -31,7 +56,7 @@ mount_gdrive () {
         # Mount GD if not already mounted.
         if [ $(ps -ef | grep "rclone mount" | grep "${cloud_dir}" | grep -v "grep" | wc -l) == "0" ]; then
                 echo "[ $(date $(printenv DATE_FORMAT)) ] Mounting Google Drive mountpoint: ${cloud_dir}"
-                rclone mount $rclone_mount_options "$@" "$(printenv RCLONE_CACHE_ENDPOINT)" "${cloud_dir}" &
+                rclone mount $rclone_mount_options $rclone_cache_options "$@" "$(printenv RCLONE_CACHE_ENDPOINT)" "${cloud_dir}" &
         else
                 echo "[ $(date $(printenv DATE_FORMAT)) ] Google Drive mountpoint: ${cloud_dir} already mounted."
         fi
@@ -88,9 +113,14 @@ mount_union () {
 if pidof -o %PPID -x "$(basename "$0")"; then
         echo "[ $(date $(printenv DATE_FORMAT)) ] Mount already in progress. Aborting."
 else
-        mount_gdrive
+        if [ "$(printenv CACHE_PROGRAM)" == "plexdrive" ]; then
+          mount_plexdrive
+        fi
+        if [ "$(printenv CACHE_PROGRAM)" == "rclone" ]; then
+          mount_rclone_cache
+        fi
         if [ "$(printenv ENCRYPT_MEDIA)" != "0" ]; then
-                mount_local_media
+          mount_local_media
         fi
         mount_union
 fi
