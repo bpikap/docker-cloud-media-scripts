@@ -12,6 +12,9 @@ local_media_dir="/local-media"
 rclone_config="--config=/config/rclone.conf"
 rclone_exclude_file="/config/exclude.txt"
 rclone_options="${rclone_config} --buffer-size $(printenv BUFFER_SIZE) --checkers $(printenv CHECKERS)"
+if [ "$(printenv CACHE_PROGRAM)" == "rclone" ]; then
+  rclone_options="${rclone_options} --cache-writes"
+fi
 rclone_mirror_options="${rclone_config} --exclude-from=${rclone_exclude_file}"
 rclone_mount_options="${rclone_options} --allow-non-empty --allow-other --uid ${_puid:-911} --gid ${_pgid:-911}"
 
@@ -34,7 +37,6 @@ fi
 if [ "$(printenv CACHE_PROGRAM)" == "rclone" ]; then
   rclone_cache_chunk_path="/chunks"
   rclone_cache_db_path="/chunks/db"
-  rclone_options="${rclone_options} --cache-writes"
   rclone_cache_options="--cache-chunk-size $(printenv CACHE_CHUNK_SIZE) --cache-total-chunk-size $(printenv CACHE_TOTAL_CHUNK_SIZE) --cache-info-age $(printenv CACHE_INFO_AGE) --cache-workers $(printenv CACHE_WORKERS) --cache-chunk-path ${rclone_cache_chunk_path} --cache-db-path ${rclone_cache_db_path}"
 fi
 
