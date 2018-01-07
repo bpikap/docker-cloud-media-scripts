@@ -15,7 +15,7 @@ rclone_options="${rclone_config} --buffer-size $(printenv BUFFER_SIZE) --checker
 if [ "$(printenv CACHE_PROGRAM)" == "rclone" ]; then
   rclone_options="${rclone_options} --cache-writes"
 fi
-rclone_mirror_options="${rclone_config} --exclude-from=${rclone_exclude_file} --bwlimit $(printenv MIRROR_BWLIMIT)"
+rclone_mirror_options="${rclone_config} --exclude-from=${rclone_exclude_file} --transfers $(printenv MIRROR_TRANSFERS) --bwlimit $(printenv MIRROR_BWLIMIT)"
 rclone_mount_options="${rclone_options} --allow-non-empty --allow-other --uid ${_puid:-911} --gid ${_pgid:-911}"
 
 if [ "$(printenv READ_ONLY)" != "0" ]; then
