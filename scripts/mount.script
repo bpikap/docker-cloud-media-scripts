@@ -71,18 +71,32 @@ mount_local_media () {
         fi
 
         sleep 5
-        while [ -z "$(ls -A ${cloud_encrypt_dir})" ]
-        do
-                echo "Waiting for mount ${cloud_encrypt_dir} ..."
-                sleep 30
-        done
+				if [ "$(printenv CACHE_PROGRAM)" == "plexdrive" ]; then
+	        while [ -z "$(ls -A ${cloud_encrypt_dir})" ]
+	        do
+	                echo "Waiting for mount ${cloud_encrypt_dir} ..."
+	                sleep 30
+	        done
+				fi
+				if [ "$(printenv CACHE_PROGRAM)" == "plexdrive" ]; then
 
-        if [ $(ps -ef | grep "rclone mount" | grep "${cloud_decrypt_dir}" | grep -v "grep" | wc -l) == "0" ]; then
-                echo "[ $(date $(printenv DATE_FORMAT)) ] Mounting decrypted Google Drive: ${cloud_decrypt_dir}"
-                rclone mount $rclone_mount_options "$@" "$(printenv RCLONE_LOCAL_ENDPOINT)" "${cloud_decrypt_dir}" &
-        else
-                echo "[ $(date $(printenv DATE_FORMAT)) ] Decrypted mountpoint: ${cloud_decrypt_dir} already mounted."
-        fi
+	        if [ $(ps -ef | grep "rclone mount" | grep "${cloud_decrypt_dir}" | grep -v "grep" | wc -l) == "0" ]; then
+	                echo "[ $(date $(printenv DATE_FORMAT)) ] Mounting decrypted Google Drive: ${cloud_decrypt_dir}"
+	                rclone mount $rclone_mount_options "$@" "$(printenv RCLONE_LOCAL_ENDPOINT)" "${cloud_decrypt_dir}" &
+	        else
+	                echo "[ $(date $(printenv DATE_FORMAT)) ] Decrypted mountpoint: ${cloud_decrypt_dir} already mounted."
+	        fi
+				fi
+
+				if [ "$(printenv CACHE_PROGRAM)" == "rclone" ]; then
+
+					if [ $(ps -ef | grep "rclone mount" | grep "${cloud_decrypt_dir}" | grep -v "grep" | wc -l) == "0" ]; then
+									echo "[ $(date $(printenv DATE_FORMAT)) ] Mounting decrypted Google Drive: ${cloud_decrypt_dir}"
+									rclone mount $rclone_mount_options $rclone_cache_options "$@" "$(printenv RCLONE_LOCAL_ENDPOINT)" "${cloud_decrypt_dir}" &
+					else
+									echo "[ $(date $(printenv DATE_FORMAT)) ] Decrypted mountpoint: ${cloud_decrypt_dir} already mounted."
+					fi
+				fi
 }
 
 mount_union () {
@@ -117,7 +131,7 @@ else
           mount_plexdrive
         fi
         if [ "$(printenv CACHE_PROGRAM)" == "rclone" ]; then
-          mount_rclone_cache
+          #mount_rclone_cache
         fi
         if [ "$(printenv ENCRYPT_MEDIA)" != "0" ]; then
           mount_local_media
