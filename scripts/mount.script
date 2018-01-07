@@ -130,9 +130,9 @@ else
         if [ "$(printenv CACHE_PROGRAM)" == "plexdrive" ]; then
           mount_plexdrive
         fi
-        if [ "$(printenv CACHE_PROGRAM)" == "rclone" ]; then
+        #if [ "$(printenv CACHE_PROGRAM)" == "rclone" ]; then
           #mount_rclone_cache
-        fi
+        #fi
         if [ "$(printenv ENCRYPT_MEDIA)" != "0" ]; then
           mount_local_media
         fi
